@@ -11,6 +11,7 @@ AndroidUSBCamera是基于[saki4510t/UVCCamera](https://github.com/saki4510t/UVCC
 
 ##  build  libuvccamera
 
+#NDK编译版版本根据issue修复NDK14版本错误 使用NDK14 保持一致
 因为用NDK14  将14加入PATH
 
 同样  local.properties
@@ -78,35 +79,67 @@ malong@MalongdeMacBook-Pro jni % ndk-build
 
 ###  Build  --> Make Project
 
+## 打包aar/jar 
+方便模块分离
+
+### aar
+
 
 ## RUN
+### USBCameraTest
+显示如何启动/停止预览。这与USBCameraTest0几乎相同，
+但是使用自定义的TextureView来显示相机图像而不是使用SurfaceView。
 
 ![usbCameraCommon](runimages/ustCameraTest.png)
 
+### USBCameraTest0
+显示如何使用SurfaceView来启动/停止预览。
 ![usbCameraTest0启动](runimages/ustCameraTest0-1.png)
 
 ![usbCameraTest0工作](runimages/ustCameraTest0-2.png)
 
 
+### USBCameraTest2
+演示如何使用MediaCodec编码器将UVC相机（无音频）的视频记录为.MP4文件。
+此示例需要API>=18，因为MediaMuxer仅支持API>=18。
 
 ![usbCameraTest2启动](runimages/ustCameraTest2-1.png)
 
 ![usbCameraTest2工作](runimages/ustCameraTest2-2.png)
 
+### USBCameraTest3
+演示如何将音频（来自内部麦克风）的视频（来自UVC相机）录制为.MP4文件。
+这也显示了几种捕捉静止图像的方式。此示例可能最适用于您的定制应用程序的基础项目。
 
 ![usbCameraTest3启动](runimages/ustCameraTest3-1.png)
 
 ![usbCameraTest3工作](runimages/ustCameraTest3-2.png)
 
+### USBCameraTest4
+显示了访问UVC相机并将视频图像保存到后台服务的方式。
+这是最复杂的示例之一，因为这需要使用AIDL的IPC。
+
+### USBCameraTest5
+和USBCameraTest3几乎相同，但使用IFrameCallback接口保存视频图像，
+而不是使用来自MediaCodec编码器的输入Surface。
+在大多数情况下，您不应使用IFrameCallback来保存图像，因为IFrameCallback比使用Surface要慢很多。
+但是，如果您想获取视频帧数据并自行处理它们或将它们作为字节缓冲区传递给其他外部库，
+则IFrameCallback将非常有用。
 ![usbCameraTest5启动](runimages/ustCameraTest5-1.png)
 
 ![usbCameraTest5工作](runimages/ustCameraTest5-2.png)
 
-
+### USBCameraTest6
+这显示了如何将视频图像分割为多个Surface。你可以在这个应用程序中看到视频图像并排观看。
+这个例子还展示了如何使用EGL来渲染图像。
+如果您想在添加视觉效果/滤镜效果后显示视频图像，则此示例可能会对您有所帮助。
 ![usbCameraTest6启动](runimages/ustCameraTest6-1.png)
 
 ![usbCameraTest6工作](runimages/ustCameraTest6-2.png)
 
+
+### USBCameraTest7
+这显示了如何使用两个摄像头并显示来自每个摄像头的视频图像。这仍然是实验性的，可能有一些问题。
 
 ![usbCameraTest7启动](runimages/ustCameraTest7-1.png)
 
@@ -114,3 +147,6 @@ malong@MalongdeMacBook-Pro jni % ndk-build
 
 
 ![usbCameraTest7第二个](runimages/ustCameraTest7-3.png)
+
+### usbCameraTest8
+这显示了如何设置/获取uvc控件。目前这只支持亮度和对比度。

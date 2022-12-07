@@ -45,6 +45,18 @@ android {
     }
 }
 
+//生成jar包
+task makeJar(type: Copy) {
+	delete 'build/outputs/uvc_camera.jar'
+	// jar文件来源
+	from('build/intermediates/aar_main_jar/release/')
+	// 生成路径
+	into('build/libs/')
+	include('classes.jar')
+	// 重命名为
+	rename('classes.jar', 'usbCameraCommon.jar')
+}
+
 dependencies {
 	api fileTree(dir: 'libs', include: ['*.jar'])
 

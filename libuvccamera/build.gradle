@@ -21,6 +21,7 @@ apply plugin: 'com.android.library'
  *  Files in the libjpeg-turbo, libusb, libuvc, rapidjson folder
  *  may have a different license, see the respective files.
  */
+apply plugin: 'com.android.library'
 
 import org.apache.tools.ant.taskdefs.condition.Os
 
@@ -79,6 +80,18 @@ task ndkClean(type: Exec, description: 'clean JNI libraries') {
 	println('executing ndkBuild clean')
 	def ndkBuildPath = getNdkBuildPath();
 	commandLine ndkBuildPath, 'clean', '-C', file('src/main').absolutePath
+}
+
+//生成jar包
+task makeJar(type: Copy) {
+	delete 'build/outputs/uvc_camera.jar'
+	// jar文件来源
+	from('build/intermediates/aar_main_jar/release/')
+	// 生成路径
+	into('build/libs/')
+	include('classes.jar')
+	// 重命名为
+	rename('classes.jar', 'uvc_camera.jar')
 }
 
 clean.dependsOn 'ndkClean'
